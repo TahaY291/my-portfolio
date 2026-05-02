@@ -1,65 +1,241 @@
-import Image from "next/image";
+"use client";
+import { useState } from "react";
+import IntroCard from "@/components/IntroCard";
+import ProjectCard from "@/components/ProjectCard";
+import SkillsCard from "@/components/SkillsCard";
+import ContactCard from "@/components/ContactCard";
+import AboutCard from "@/components/AboutCard";
+import StatsCard from "@/components/StatsCard";
+// import ProjectPage from "@/components/pages/ProjectPage";
+// import SkillsPage from "@/components/pages/SkillsPage";
+// import AboutPage from "@/components/pages/AboutPage";
+// import ContactPage from "@/components/pages/ContactPage";
+
+type PageType = null | "project" | "skills" | "about" | "contact";
+
+// Wrapper that forces a card to fill its grid cell and suppresses internal min-heights
+function CardCell({
+  children,
+  delay,
+  style = {},
+}: {
+  children: React.ReactNode;
+  delay: string;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <div
+      className="fade-up"
+      style={{
+        animationDelay: delay,
+        minHeight: 0,
+        minWidth: 0,
+        overflow: "hidden",
+        ...style,
+      }}
+    >
+      {/* This inner div stretches to fill the cell and overrides card min-heights */}
+      <div
+        style={{
+          height: "100%",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <div
+          style={{
+            flex: 1,
+            minHeight: 0,
+            // Override the min-height that individual card components set on themselves
+            ["--card-min-height" as string]: "0px",
+          }}
+        >
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
+  const [activePage, setActivePage] = useState<PageType>(null);
+  const [selectedProject, setSelectedProject] = useState<string | null>(null);
+
+  const openPage = (page: PageType, project?: string) => {
+    setActivePage(page);
+    if (project) setSelectedProject(project);
+  };
+
+  const closePage = () => {
+    setActivePage(null);
+    setSelectedProject(null);
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main
+      style={{
+        width: "100vw",
+        height: "100vh",
+        overflow: "hidden",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "24px",
+        position: "relative",
+        background: "var(--bg)",
+        boxSizing: "border-box",
+      }}
+    >
+      {/* Ambient background glows */}
+      <div style={{
+        position: "fixed", top: "10%", left: "15%",
+        width: 500, height: 500,
+        background: "radial-gradient(circle, rgba(110,181,255,0.07) 0%, transparent 70%)",
+        pointerEvents: "none", zIndex: 0,
+      }} />
+      <div style={{
+        position: "fixed", bottom: "10%", right: "15%",
+        width: 400, height: 400,
+        background: "radial-gradient(circle, rgba(126,245,176,0.05) 0%, transparent 70%)",
+        pointerEvents: "none", zIndex: 0,
+      }} />
+
+      {/* Force all card internals to respect grid sizing */}
+      <style>{`
+        .card-cell-inner > * {
+          min-height: 0 !important;
+          height: 100% !important;
+        }
+        .card-cell-inner .about-bubble-card,
+        .card-cell-inner .contact-bubble-card,
+        .card-cell-inner .intro-bubble-card,
+        .card-cell-inner .bubble-card,
+        .card-cell-inner .card {
+          min-height: 0 !important;
+          height: 100% !important;
+          box-sizing: border-box;
+        }
+      `}</style>
+
+      {/* Bento Grid */}
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "1fr 1.8fr 1fr",
+        gridTemplateRows: "195px 130px 205px",
+        gap: "12px",
+        position: "relative",
+        zIndex: 1,
+        maxWidth: "1080px",
+        width: "100%",
+      }}>
+
+        {/* Row 1, Col 1: About */}
+        <div
+          className="fade-up"
+          style={{ animationDelay: "0.1s", gridColumn: "1", gridRow: "1", minHeight: 0, overflow: "hidden" }}
+        >
+          <div className="card-cell-inner" style={{ height: "100%" }}>
+            <AboutCard onClick={() => openPage("about")} />
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+
+        {/* Col 2: IntroCard — spans rows 1 and 2 */}
+        <div
+          className="fade-up"
+          style={{ animationDelay: "0s", gridColumn: "2", gridRow: "1 / 3", minHeight: 0, overflow: "hidden" }}
+        >
+          <div className="card-cell-inner" style={{ height: "100%" }}>
+            <IntroCard />
+          </div>
+        </div>
+
+        {/* Row 1, Col 3: Stats */}
+        <div
+          className="fade-up"
+          style={{ animationDelay: "0.15s", gridColumn: "3", gridRow: "1", minHeight: 0, overflow: "hidden" }}
+        >
+          <div className="card-cell-inner" style={{ height: "100%" }}>
+            <StatsCard />
+          </div>
+        </div>
+
+        {/* Row 2, Col 1: Skills */}
+        <div
+          className="fade-up"
+          style={{ animationDelay: "0.2s", gridColumn: "1", gridRow: "2", minHeight: 0, overflow: "hidden" }}
+        >
+          <div className="card-cell-inner" style={{ height: "100%" }}>
+            <SkillsCard onClick={() => openPage("skills")} />
+          </div>
+        </div>
+
+        {/* Row 2, Col 3: Contact */}
+        <div
+          className="fade-up"
+          style={{ animationDelay: "0.25s", gridColumn: "3", gridRow: "2", minHeight: 0, overflow: "hidden" }}
+        >
+          <div className="card-cell-inner" style={{ height: "100%" }}>
+            <ContactCard onClick={() => openPage("contact")} />
+          </div>
+        </div>
+
+        {/* Row 3: Projects spanning all 3 columns */}
+        <div
+          className="fade-up"
+          style={{
+            animationDelay: "0.3s",
+            gridColumn: "1 / 4",
+            gridRow: "3",
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr",
+            gap: "12px",
+            minHeight: 0,
+          }}
+        >
+          <div className="card-cell-inner" style={{ height: "100%", overflow: "hidden" }}>
+            <ProjectCard
+              title="NeuralDash"
+              desc="AI-powered analytics dashboard with real-time insights"
+              color="var(--accent-blue)"
+              techs={["React", "Python", "TensorFlow"]}
+              onClick={() => openPage("project", "NeuralDash")}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          </div>
+          <div className="card-cell-inner" style={{ height: "100%", overflow: "hidden" }}>
+            <ProjectCard
+              title="FlowMint"
+              desc="Web3 marketplace for digital creators and collectors"
+              color="var(--accent-green)"
+              techs={["Next.js", "Solidity", "IPFS"]}
+              onClick={() => openPage("project", "FlowMint")}
+            />
+          </div>
+          <div className="card-cell-inner" style={{ height: "100%", overflow: "hidden" }}>
+            <ProjectCard
+              title="Sonique"
+              desc="Spatial audio player with immersive 3D sound engine"
+              color="var(--accent-pink)"
+              techs={["WebAudio", "Three.js", "Rust"]}
+              onClick={() => openPage("project", "Sonique")}
+            />
+          </div>
         </div>
-      </main>
-    </div>
+      </div>
+
+      {/* Page Overlays */}
+      <div className={`page-overlay ${activePage === "project" ? "open" : ""}`}>
+        {/* <ProjectPage onClose={closePage} projectName={selectedProject} /> */}
+      </div>
+      <div className={`page-overlay ${activePage === "skills" ? "open" : ""}`}>
+        {/* <SkillsPage onClose={closePage} /> */}
+      </div>
+      <div className={`page-overlay ${activePage === "about" ? "open" : ""}`}>
+        {/* <AboutPage onClose={closePage} /> */}
+      </div>
+      <div className={`page-overlay ${activePage === "contact" ? "open" : ""}`}>
+        {/* <ContactPage onClose={closePage} /> */}
+      </div>
+    </main>
   );
 }
