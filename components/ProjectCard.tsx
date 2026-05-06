@@ -21,7 +21,7 @@ const projects = [
   },
 ];
 
-export default function ProjectsCard({ onClick }: { onClick: () => void }) {
+export default function ProjectsCard({ onClick }: { onClick: (e: React.MouseEvent) => void }) {
   return (
     <>
       <style>{`

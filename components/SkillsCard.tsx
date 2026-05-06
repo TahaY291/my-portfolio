@@ -7,7 +7,7 @@ const skills = [
   { name: "Python", level: 80, color: "var(--accent-amber)" },
 ];
 
-export default function SkillsCard({ onClick }: { onClick: () => void }) {
+export default function SkillsCard({ onClick }: {onClick: (e: React.MouseEvent) => void }) {
   return (
     <>
       <style>{`

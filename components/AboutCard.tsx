@@ -1,6 +1,6 @@
 "use client";
 
-export default function AboutCard({ onClick }: { onClick: () => void }) {
+export default function AboutCard({ onClick }: { onClick: (e: React.MouseEvent) => void }) {
   return (
     <>
       <style>{`
