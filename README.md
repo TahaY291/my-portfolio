@@ -1,4 +1,4 @@
-# portfolio
+# Mine-Portfolio_2026
 
 Personal portfolio of **Muhammad Taha Yasin** — MERN Stack & Next.js Developer.
 
