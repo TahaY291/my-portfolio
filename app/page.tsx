@@ -3,11 +3,11 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import IntroCard from "@/components/IntroCard";
 import ProjectsCard from "@/components/ProjectCard";
 import SkillsCard from "@/components/SkillsCard";
-import ContactCard from "@/components/ContactCard";
 import AboutCard from "@/components/AboutCard";
 import ProjectsPage from "@/components/pages/ProjectsPage";
 import SkillsPage from "@/components/pages/SkillsPage";
 import AboutPage from "@/components/pages/AboutPage";
+import ContactCard from "@/components/ContactCard";
 import NightSkyBackground from "../components/NightSkyBackground";
 
 type PageType = null | "projects" | "skills" | "about";
@@ -245,8 +245,8 @@ export default function Home() {
         </>
       )}
 
-      <div className="h-screen w-screen flex items-center justify-center">
-        <div className="flex w-[80%] h-[75%] gap-5">
+      <div className="max-lg:h-full h-screen w-screen flex items-center justify-center">
+        <div className="flex max-lg:flex-col w-[80%] h-[75%] gap-5">
           <div className="basis-[25%] h-full">
             <IntroCard />
           </div>
@@ -258,7 +258,7 @@ export default function Home() {
               <SkillsCard onClick={makeClickHandler("skills")} />
             </div>
           </div>
-          <div className="basis-[25%] h-full flex flex-col gap-5">
+          <div className="basis-[25%] h-full flex flex-col max-lg:flex-row gap-5">
             <div className="basis-[50%] cursor-pointer" onClick={makeClickHandler("about")}>
               <AboutCard onClick={makeClickHandler("about")} />
             </div>
