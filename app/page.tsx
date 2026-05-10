@@ -6,7 +6,7 @@ import SkillsCard from "@/components/SkillsCard";
 import AboutCard from "@/components/AboutCard";
 import ProjectsPage from "@/components/pages/ProjectsPage";
 import SkillsPage from "@/components/pages/SkillsPage";
-import AboutPage from "@/components/pages/AboutPage";
+import AboutPage from "@/components/pages/AboutPage"
 import ContactCard from "@/components/ContactCard";
 import NightSkyBackground from "../components/NightSkyBackground";
 
@@ -247,20 +247,20 @@ export default function Home() {
 
       <div className="max-lg:h-full h-screen w-screen flex items-center justify-center">
         <div className="flex max-lg:flex-col w-[80%] h-[75%] gap-5">
-          <div className="basis-[25%] h-full">
+          <div className="basis-[25%] h-full portfolio-card">
             <IntroCard />
           </div>
           <div className="basis-[50%] h-full flex flex-col gap-5">
             <div className="basis-[65%] cursor-pointer" onClick={makeClickHandler("projects")}>
-              <ProjectsCard onClick={makeClickHandler("projects")} />
+              <ProjectsCard onClick={() => openPage("projects")} />
             </div>
             <div className="basis-[35%] cursor-pointer" onClick={makeClickHandler("skills")}>
-              <SkillsCard onClick={makeClickHandler("skills")} />
+              <SkillsCard onClick={() => openPage("skills")} />
             </div>
           </div>
           <div className="basis-[25%] h-full flex flex-col max-lg:flex-row gap-5">
             <div className="basis-[50%] cursor-pointer" onClick={makeClickHandler("about")}>
-              <AboutCard onClick={makeClickHandler("about")} />
+              <AboutCard onClick={() => openPage("about")} />
             </div>
             <div className="basis-[50%]">
               <ContactCard />
