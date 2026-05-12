@@ -258,7 +258,7 @@ export default function Home() {
               <SkillsCard onClick={() => openPage("skills")} />
             </div>
           </div>
-          <div className="basis-[25%] h-full flex flex-col max-lg:flex-row gap-5">
+          <div className="basis-[25%] h-full flex flex-col gap-5">
             <div className="basis-[50%] cursor-pointer" onClick={makeClickHandler("about")}>
               <AboutCard onClick={() => openPage("about")} />
             </div>
